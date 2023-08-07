@@ -1,0 +1,59 @@
+
+services:
+  proxy:
+    image: traefik:3.0
+    container_name: tcm_proxy
+    command:
+      - --providers.docker
+      - --providers.docker.exposedByDefault=false
+    labels:
+      - traefik.enable=false
+    ports:
+      - "80:80"
+    restart:  on-failure
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      default:
+        aliases:
+          - "${API_DOMAIN}"
+          - "${BASE_DOMAIN}"
+  back:
+    image: node:18-alpine
+    restart: on-failure
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.back_router.rule=${BACK_ROUTER_RULE}
+      - traefik.http.routers.back_router.service=back_service
+      - traefik.http.services.back_service.loadbalancer.server.port=3000
+    working_dir: /home/node/app
+    volumes:
+      - ./apps/back:/home/node/app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        yarn install && yarn start:dev
+
+  front:
+    image: node:18-alpine
+#    user: "node" good for prod env, if kept during environement, we need to map UUID
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.front_router.rule=${FRONT_ROUTER_RULE}
+      - traefik.http.routers.front_router.service=front_service
+      - traefik.http.services.front_service.loadbalancer.server.port=3000
+    working_dir: /home/node/app
+    environment:
+      # This is used only per the proxy
+      NUXT_API_URL: ${PROTOCOL}://${API_DOMAIN}/
+      NODE_ENV: development
+    ports:
+      - "24678:24678"
+    volumes:
+      - ./apps/front/:/home/node/app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        yarn install && yarn dev -- -o
