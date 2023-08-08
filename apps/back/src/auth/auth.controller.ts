@@ -37,7 +37,6 @@ export class AuthController {
     }).send(instanceToPlain(user));
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('me')
   @UseInterceptors(ClassSerializerInterceptor)
   getProfile(@Request() { user }: RequestWithUser) {

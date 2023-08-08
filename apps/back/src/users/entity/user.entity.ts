@@ -31,6 +31,7 @@ export class User implements PasswordAuthenticatedUser {
   password: string;
 
   @Column({ default: true })
+  @Exclude()
   isActive: boolean;
 
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
