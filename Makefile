@@ -64,16 +64,33 @@ fup: sync-env ## stronger up (recreate all container and rebuild the image)
 	DOCKER_BUILDKIT=1 docker compose up -d --force-recreate --build
 
 
+db-mig-diff: sync-env ## Launch generate migration (recommended) from database diff. /!\ It may take deleted entities  (due to their existences in the /dist directory) into account!
+	docker compose exec back yarn run migration:generate
+
+migrate: sync-env ## Launch migration. /!\ It may take deleted migrations  (due to their existences in the /dist directory) into account!
+	docker compose exec back yarn run migration:run
+
 .PHONY: restart
 restart: down up ## Soft Restart
 
 .PHONY: frestart
 frestart: fdown fup ## Hard restart
 
+.PHONY: be-stop
+be-stop: sync-env ## stop front container
+	DOCKER_BUILDKIT=1 docker compose stop back
 
-.PHONY: fe-build
-fe-build: ;\
-   docker compose build --no-cache
+.PHONY: be-rm
+be-rm: sync-env ## remove front container
+	DOCKER_BUILDKIT=1 docker compose rm back -f
+
+.PHONY: be-start
+be-start: sync-env ## start front container
+	DOCKER_BUILDKIT=1 docker compose up  back -d
+
+.PHONY: be-restart
+be-restart: be-stop be-rm be-start ## reset front container
+
 
 .PHONY: fe-stop
 fe-stop: sync-env ## stop front container
@@ -100,6 +117,12 @@ fe-check: ## lint front (check)
 
 .PHONY: ci
 ci: fe-lint ## Run all CI tools
+
+.PHONY: seed
+seed:
+	docker compose exec back yarn seed
+
+prepare-db: migrate seed
 
 .PHONY: network-prune
 network-prune: ## Prune networks

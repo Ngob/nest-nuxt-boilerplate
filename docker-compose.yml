@@ -27,13 +27,31 @@ services:
       - traefik.http.routers.back_router.service=back_service
       - traefik.http.services.back_service.loadbalancer.server.port=3000
     working_dir: /home/node/app
+    environment:
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      JWT_SECRET: "k3fSeAN7LmzrHk8XVK2Rgxb5gBKyK4sG"
     volumes:
       - ./apps/back:/home/node/app
     command:
       - /bin/sh
       - -c
       - |
-        yarn install && yarn start:dev
+        sleep 5 && yarn install && yarn start:dev
+
+  mysql:
+    image: 'mariadb:10.11'
+    restart:  on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USERNAME}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - mysql_db:/var/lib/mysql
 
   front:
     image: node:18-alpine
@@ -57,3 +75,20 @@ services:
       - -c
       - |
         yarn install && yarn dev -- -o
+
+
+  phpmyadmin:
+    image: phpmyadmin
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.phpmyadmin_router.rule=${PHPMYADMIN_ROUTER_RULE}
+      - traefik.http.routers.phpmyadmin_router.service=phpmyadmin_service
+      - traefik.http.services.phpmyadmin_service.loadbalancer.server.port=80
+    environment:
+      PMA_HOSTS: "mysql, mysql_tests"
+      PMA_USER: "$DATABASE_USERNAME"
+      PMA_PASSWORD: "$DATABASE_PASSWORD"
+      UPLOAD_LIMIT: "100M"
+
+volumes:
+  mysql_db:
