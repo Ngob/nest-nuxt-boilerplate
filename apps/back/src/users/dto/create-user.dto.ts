@@ -1,5 +1,9 @@
-
-import {IsDateString, IsEmail, IsNotEmpty, IsString, IsStrongPassword} from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsStrongPassword,
+} from 'class-validator';
 
 // A must to read: https://docs.nestjs.com/techniques/validation
 export class CreateUserDto {
@@ -12,7 +16,7 @@ export class CreateUserDto {
     minLowercase: 1,
     minUppercase: 1,
     minSymbols: 0,
-    minNumbers: 1
+    minNumbers: 1,
   })
   password: string;
 }

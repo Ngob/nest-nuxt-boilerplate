@@ -1,14 +1,14 @@
-import {Controller, Get} from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
 interface HealthCheckStatus {
-  success: true
+  success: true;
 }
 @Controller('healthcheck')
 export class HealthcheckController {
   @Get()
   status(): HealthCheckStatus {
     return {
-      success: true
+      success: true,
     };
   }
 }

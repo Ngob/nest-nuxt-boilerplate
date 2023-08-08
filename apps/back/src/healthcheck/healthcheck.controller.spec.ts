@@ -13,6 +13,6 @@ describe('HealthcheckController', () => {
   });
 
   it('index route should return true', () => {
-    expect(controller.status()).toBe({success: true});
+    expect(controller.status()).toBe({ success: true });
   });
 });
