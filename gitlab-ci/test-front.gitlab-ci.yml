@@ -1,0 +1,14 @@
+include:
+  - local: 'gitlab-ci/templates/apps.gitlab-ci.yml'
+
+front linter:
+  stage: 'test'
+  extends:
+    - '.app front'
+    - '.app front cache-rw'
+  script:
+    - yarn lint
+    - yarn build
+  rules:
+    - !reference [.except hotfix rules, rules]
+    - when: always
