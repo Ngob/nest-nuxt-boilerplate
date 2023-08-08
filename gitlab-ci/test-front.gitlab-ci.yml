@@ -6,9 +6,8 @@ front linter:
   extends:
     - '.app front'
     - '.app front cache-rw'
+    - '.MR rules'
   script:
     - yarn lint
     - yarn build
-  rules:
-    - !reference [.except hotfix rules, rules]
-    - when: always
+  interruptible: true

@@ -6,14 +6,13 @@ test back analyze:
   extends:
     - '.app back'
     - '.app back cache-rw'
+    - '.MR rules'
   script:
     - yarn lint
     - yarn format:lint
     - yarn test
     - yarn build
-  rules:
-    - !reference [.except hotfix rules, rules]
-    - when: always
+  interruptible: true
 
 # TODO : have to be implemented
 #back unit test:
