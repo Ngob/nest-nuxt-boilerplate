@@ -1,17 +1,18 @@
 <template>
-  <div class="grid">
-    <div class="col-12">
-      <layout-app-header />
+  <div>
+    <div class="grid">
+      <div class="col-12">
+        <layout-app-header />
+      </div>
     </div>
-  </div>
-  <div class="grid">
+    <div class="grid">
       <div class="col-2">
-          <layout-menu-app-menu />
+        <layout-menu-app-menu />
       </div>
       <div class="col min-h-screen">
-          <slot />
+        <slot />
       </div>
+    </div>
   </div>
 </template>
-<script setup>
-</script>
+<script setup></script>

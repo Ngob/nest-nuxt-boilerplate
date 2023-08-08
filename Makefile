@@ -107,16 +107,37 @@ fe-start: sync-env ## start front container
 .PHONY: fe-restart
 fe-restart: fe-stop fe-rm fe-start ## reset front container
 
+
+.PHONY: be-lint
+be-lint: sync-env ## lint back
+	docker compose exec back yarn lint --fix
+
+.PHONY: be-format
+be-format: ## format back
+	docker compose exec back yarn format
+
+.PHONY: be-test
+be-test: ## test back
+	docker compose exec back yarn test
+
+.PHONY: be-build
+be-build: ## build JS back
+	docker compose exec back yarn build
+
 .PHONY: fe-lint
 fe-lint: sync-env ## lint front (fix)
 	docker compose exec front yarn lint --fix
 
 .PHONY: fe-check
 fe-check: ## lint front (check)
-	docker sync-env compose exec front yarn lint
+	docker compose exec front yarn lint
+
+.PHONY: fe-build
+fe-build: ## build JS front
+	docker compose exec front yarn build
 
 .PHONY: ci
-ci: fe-lint ## Run all CI tools
+ci: fe-lint fe-check fe-build be-format be-lint be-test be-build ## Run all CI tools
 
 .PHONY: seed
 seed:

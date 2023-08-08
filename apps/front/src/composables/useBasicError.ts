@@ -8,7 +8,9 @@ export default function useBasicError() {
       return error.value?.detail;
     }
     if (error.value?.message) {
-      return error.value.message.join ? error.value.message.join('.') : error.value.message;
+      return Array.isArray(error.value.message)
+        ? error.value.message.join(".")
+        : error.value.message;
     }
     return "";
   });

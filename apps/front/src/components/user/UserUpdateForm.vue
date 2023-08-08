@@ -31,7 +31,7 @@ const {
   error,
   pending: userPending,
   refresh: userRefresh,
-} = await useGetUser(props.userId as string);
+} = await useGetUser(props);
 
 const {
   email,

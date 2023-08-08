@@ -49,12 +49,12 @@ export interface ProxyOptions {
 }
 
 const ignoredHeaders = new Set([
-  'transfer-encoding',
-  'connection',
-  'keep-alive',
-  'upgrade',
-  'expect',
-  'host',
+  "transfer-encoding",
+  "connection",
+  "keep-alive",
+  "upgrade",
+  "expect",
+  "host",
 ]);
 
 export function getProxyRequestHeaders(event: H3Event) {
@@ -80,7 +80,7 @@ export function getProxyRequestHeaders(event: H3Event) {
 async function proxyRequest(
   event: H3Event,
   target: string,
-  opts: ProxyOptions = {},
+  opts: ProxyOptions = {}
 ) {
   const method = getMethod(event);
 

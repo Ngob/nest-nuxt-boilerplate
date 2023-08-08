@@ -15,18 +15,22 @@ export default defineNuxtConfig({
       title: "Planet Purpose",
       meta: [
         // <meta name="description" content="My amazing site">
-        { name: 'description', content: 'Planet Purpose - Experigame' }
+        { name: "description", content: "Planet Purpose - Experigame" },
       ],
     },
   },
-  css: ["@/assets/styles/main.scss",  "primevue/resources/themes/lara-light-blue/theme.css", "primeflex/primeflex.css", "primeicons/primeicons.css"],
+  css: [
+    "@/assets/styles/main.scss",
+    "primevue/resources/themes/lara-light-blue/theme.css",
+    "primeflex/primeflex.css",
+    "primeicons/primeicons.css",
+  ],
 
   build: {
-    transpile: ["primevue"]
+    transpile: ["primevue"],
   },
   vite: {
     plugins: [svgLoader()],
-
 
     css: {
       preprocessorOptions: {

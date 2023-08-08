@@ -1,4 +1,4 @@
 export interface BasicError {
-  message: string;
+  message: string | string[];
   detail?: string;
 }
