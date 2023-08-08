@@ -1,7 +1,7 @@
 <template>
   <div v-show="userPending">(Chargement)</div>
 
-  <form v-if="!userPending" @submit.prevent.stop="updateUser">
+  <form v-if="!userPending && !error" @submit.prevent.stop="updateUser">
     <h1>Update user {{ data.email }}</h1>
     <UserForm
       v-model:email="email"
@@ -10,9 +10,9 @@
       :is-password-confirmed="isPasswordConfirmed"
     />
     {{ errorMessage }}
-    {{ error }}
     <button type="submit">Save</button>
   </form>
+  {{ error }}
 </template>
 
 <script setup lang="ts">

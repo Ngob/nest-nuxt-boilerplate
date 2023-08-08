@@ -1,32 +1,39 @@
 <template>
-  <div
-    class="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center sticky-top"
-  >
-    <NuxtLink to="/users">Users</NuxtLink>
-    <NuxtLink to="/" class="d-block p-3 link-dark text-decoration-none">
-      <Icon1Square />
-    </NuxtLink>
-    <ul
-      class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center"
-    >
-      <MenuItem to="/demo/page1">
-        <Icon1Square />
-        <span class="mx-2"> This is the item 1</span>
-      </MenuItem>
-      <MenuItem to="/demo/page2">
-        <Icon2Square />
-        <span class="mx-2"> This is the item 2</span>
-      </MenuItem>
-      <MenuItem to="/demo/page3">
-        <Icon3Square />
-        <span class="mx-2"> This is the item 3</span>
-      </MenuItem>
-    </ul>
-  </div>
+        <TieredMenu :model="items" class="h-screen sticky w-full">
+        </TieredMenu>
 </template>
 <script setup lang="ts">
-// Credit to https://dev.to/codeply/bootstrap-5-sidebar-examples-38pb
-// Another interesting ressource https://www.codeply.com/p/yE87h7irNi/icons-text
+
+
+const items = computed(() => [
+    {
+        label: 'Users',
+        icon: 'pi pi-fw pi-file',
+        to: "/users"
+    },
+    {
+        label: 'Page1',
+        icon: 'pi pi-fw pi-pencil',
+        to: "/demo/page1"
+    },
+    {
+        label: 'Page2',
+        icon: 'pi pi-fw pi-pencil',
+        to: "/demo/page2"
+    },
+    {
+        label: 'Page3',
+        icon: 'pi pi-fw pi-pencil',
+        to: "/demo/page3"
+    },
+    {
+        separator: true
+    },
+    {
+        label: 'Quit',
+        icon: 'pi pi-fw pi-power-off'
+    }
+]);
 
 import MenuItem from "./MenuItem.vue";
 import Icon1Square from "~/assets/images/icon-1-square.svg?component";

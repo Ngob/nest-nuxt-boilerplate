@@ -14,6 +14,7 @@ import {JwtAuthGuard} from "./jwt-auth.guard";
 import {Request as ExpressRequest, Response as ExpressResponse} from 'express';
 import {User} from "../users/entity/user.entity";
 import { serialize, instanceToPlain } from 'class-transformer';
+import {Public} from "./public.decorator";
 
 
 type RequestWithUser = Request & { user?: User }; // Custom Request type
@@ -24,6 +25,7 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @Post('login')
   @UseInterceptors(ClassSerializerInterceptor)
+  @Public()
   async login(@Request() { user }: RequestWithUser, @Response() res: ExpressResponse) {
     if (!user) {
       throw UnauthorizedException;

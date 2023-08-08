@@ -10,7 +10,6 @@ async function bootstrap() {
   app.use(cookieParser()); // cookie parser middleware
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-  app.useGlobalGuards(new JwtAuthGuard());
   await app.listen(3000);
 }
 bootstrap();

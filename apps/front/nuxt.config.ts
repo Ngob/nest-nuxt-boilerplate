@@ -12,16 +12,22 @@ export default defineNuxtConfig({
       // @see https://getbootstrap.com/docs/5.0/getting-started/introduction/#starter-template
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
-      title: "Boilerplate SF - Nuxt",
+      title: "Planet Purpose",
       meta: [
         // <meta name="description" content="My amazing site">
-        //  { name: 'description', content: 'My amazing site.' }
+        { name: 'description', content: 'Planet Purpose - Experigame' }
       ],
     },
   },
-  css: ["@/assets/styles/main.scss"],
+  css: ["@/assets/styles/main.scss",  "primevue/resources/themes/lara-light-blue/theme.css", "primeflex/primeflex.css", "primeicons/primeicons.css"],
+
+  build: {
+    transpile: ["primevue"]
+  },
   vite: {
     plugins: [svgLoader()],
+
+
     css: {
       preprocessorOptions: {
         scss: {
